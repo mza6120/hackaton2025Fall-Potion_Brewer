@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Potion Craft Garden 🧪</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <h1>🧪 Potion Craft Garden 🧪</h1>
+            <p>Grow, harvest, and brew magical concoctions</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="garden">🌱 Garden</button>
+            <button class="tab-btn" data-tab="preparation">🔪 Preparation</button>
+            <button class="tab-btn" data-tab="potion-craft">⚗️ Potion Craft</button>
+        </nav>
+
+        <!-- Garden Tab -->
+        <div class="tab-content active" id="garden-tab">
+            <div class="garden-layout">
+                <!-- Plant Palette -->
+                <div class="plant-palette">
+                    <h3>Plant Seeds</h3>
+                    <div class="seeds-container">
+                        <div class="seed" draggable="true" data-plant="lavender">
+                            <span class="seed-emoji">🌺</span>
+                            <span class="seed-name">Lavender</span>
+                        </div>
+                        <div class="seed" draggable="true" data-plant="ginseng">
+                            <span class="seed-emoji">🌿</span>
+                            <span class="seed-name">Ginseng</span>
+                        </div>
+                        <div class="seed" draggable="true" data-plant="mint">
+                            <span class="seed-emoji">🌿</span>
+                            <span class="seed-name">Mint</span>
+                        </div>
+                        <div class="seed" draggable="true" data-plant="mushroom">
+                            <span class="seed-emoji">🍄</span>
+                            <span class="seed-name">Mushroom</span>
+                        </div>
+                        <div class="seed" draggable="true" data-plant="thyme">
+                            <span class="seed-emoji">🌿</span>
+                            <span class="seed-name">Thyme</span>
+                        </div>
+                        <div class="seed" draggable="true" data-plant="sage">
+                            <span class="seed-emoji">🌿</span>
+                            <span class="seed-name">Sage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garden Area with Harvest Tool -->
+                <div class="garden-area">
+                    <!-- Harvest Tool -->
+                    <div class="harvest-tool" id="harvest-tool" title="Click to activate harvest mode">
+                        <svg viewBox="0 0 100 100" class="sickle-svg">
+                            <!-- Curved blade -->
+                            <path d="M 30 35 Q 20 50, 25 65 Q 35 75, 50 70 Q 65 65, 70 55 Q 72 48, 68 42" 
+                                  fill="#b0b0b0" stroke="#888" stroke-width="1.5"/>
+                            <!-- Sharp edge -->
+                            <path d="M 30 35 Q 20 50, 25 65 Q 35 75, 50 70" 
+                                  fill="none" stroke="#ddd" stroke-width="0.5"/>
+                            <!-- Handle -->
+                            <rect x="25" y="15" width="8" height="25" rx="3" fill="#8b4513" stroke="#654321" stroke-width="1"/>
+                            <!-- Handle grip -->
+                            <rect x="27" y="35" width="4" height="3" fill="#654321"/>
+                        </svg>
+                    </div>
+
+                    <!-- Garden Field -->
+                    <div class="garden" id="garden">
+                        <div class="garden-grid"></div>
+                        <div class="plants-layer"></div>
+                        <div class="drop-hint">Drop seeds to plant ingredients 🌱</div>
+                    </div>
+                </div>
+
+                <!-- Garden Info Panel -->
+                <div class="info-panel">
+                    <h3>Garden Info</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-label">Growing:</span>
+                            <span class="stat-value" id="growing-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ready:</span>
+                            <span class="stat-value" id="ready-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Harvested:</span>
+                            <span class="stat-value" id="harvested-count">0</span>
+                        </div>
+                    </div>
+                    <div class="inventory">
+                        <h4>Inventory</h4>
+                        <div class="inventory-items" id="garden-inventory"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preparation Tab -->
+        <div class="tab-content" id="preparation-tab">
+            <div class="prep-workspace">
+                <div class="ingredients-panel">
+                    <h3>Harvested Ingredients</h3>
+                    <div class="ingredients-list" id="ingredients-list"></div>
+                </div>
+
+                <div class="kitchen-workspace">
+                    <h3>Kitchen Tools</h3>
+                    
+                    <!-- Cutting Board -->
+                    <div class="kitchen-tool tool-board">
+                        <div class="tool-label">Cutting Board</div>
+                        <div class="tool-visual">
+                            <svg id="cutting-board-svg" viewBox="0 0 120 80">
+                                <!-- Wooden board -->
+                                <rect x="10" y="20" width="100" height="50" rx="3" fill="#8b6f47" stroke="#654321" stroke-width="2"/>
+                                <!-- Wood grain lines -->
+                                <line x1="15" y1="30" x2="105" y2="30" stroke="#6b5233" stroke-width="1" opacity="0.5"/>
+                                <line x1="15" y1="40" x2="105" y2="40" stroke="#6b5233" stroke-width="1" opacity="0.5"/>
+                                <line x1="15" y1="50" x2="105" y2="50" stroke="#6b5233" stroke-width="1" opacity="0.5"/>
+                                <line x1="15" y1="60" x2="105" y2="60" stroke="#6b5233" stroke-width="1" opacity="0.5"/>
+                                <!-- Knife -->
+                                <g id="knife">
+                                    <path d="M 60 15 L 65 25 L 60 40 L 55 25 Z" fill="#c0c0c0" stroke="#888" stroke-width="1"/>
+                                    <line x1="58" y1="25" x2="62" y2="25" stroke="#ddd" stroke-width="0.5"/>
+                                    <rect x="57" y="40" width="6" height="15" rx="2" fill="#8b4513"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="tool-slot" id="chop-slot">Drop ingredient to chop</div>
+                        <button class="tool-control action-btn">🪓 Chop</button>
+                    </div>
+
+                    <!-- Mortar and Pestle -->
+                    <div class="kitchen-tool tool-mortar">
+                        <div class="tool-label">Mortar & Pestle</div>
+                        <div class="tool-visual">
+                            <svg id="mortar-svg" viewBox="0 0 100 100">
+                                <!-- Mortar base -->
+                                <ellipse cx="50" cy="75" rx="30" ry="15" fill="#808080"/>
+                                <!-- Mortar bowl -->
+                                <ellipse cx="50" cy="70" rx="28" ry="12" fill="#a0a0a0"/>
+                                <!-- Inner depth -->
+                                <ellipse cx="50" cy="68" rx="24" ry="10" fill="#8b8b8b"/>
+                                <!-- Pestle -->
+                                <circle cx="51" cy="20" r="5" fill="#8b8b8b" class="pestle"/>
+                                <rect x="48" y="20" width="6" height="35" rx="3" fill="#8b4513"/>
+                            </svg>
+                        </div>
+                        <div class="tool-slot" id="grind-slot">Drop ingredient to grind</div>
+                        <button class="tool-control action-btn">⚱️ Grind</button>
+                    </div>
+
+                    <!-- Dehydrator -->
+                    <div class="kitchen-tool tool-dehydrator">
+                        <div class="tool-label">Dehydrator</div>
+                        <div class="tool-visual">
+                            <svg id="dehydrator-svg" viewBox="0 0 120 100">
+                                <!-- Oven body -->
+                                <rect x="20" y="30" width="80" height="60" rx="5" fill="#4a4a4a" stroke="#333" stroke-width="2"/>
+                                <!-- Door -->
+                                <rect x="30" y="40" width="60" height="45" rx="3" fill="#333" stroke="#555" stroke-width="2"/>
+                                <rect x="35" y="45" width="50" height="35" rx="2" fill="#222"/>
+                                <!-- Door handle -->
+                                <circle cx="80" cy="62" r="3" fill="#888"/>
+                                <!-- Heating element -->
+                                <rect x="45" y="25" width="30" height="4" rx="2" fill="#ff4444" opacity="0.8" id="heating-element"/>
+                                <!-- Flames -->
+                                <g id="flames">
+                                    <path d="M 55 25 Q 52 20, 53 18 Q 54 20, 57 25" fill="#ff6600" opacity="0.7"/>
+                                    <path d="M 65 25 Q 68 20, 67 18 Q 66 20, 63 25" fill="#ff6600" opacity="0.7"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="tool-slot" id="dehydrate-slot">Drop ingredient to dehydrate</div>
+                        <button class="tool-control action-btn">🔥 Dehydrate</button>
+                    </div>
+                </div>
+
+                <div class="prepared-panel">
+                    <h3>Prepared Ingredients</h3>
+                    <div class="prepared-list" id="prepared-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Potion Craft Tab -->
+        <div class="tab-content" id="potion-craft-tab">
+            <div class="potion-workspace">
+                <div class="cauldron-panel">
+                    <h3>Cauldron</h3>
+                    <div class="cauldron-area" id="cauldron-area">
+                        <div class="cauldron-visual">
+                            <svg viewBox="0 0 150 150">
+                                <!-- Cauldron body -->
+                                <ellipse cx="75" cy="110" rx="60" ry="20" fill="#2a2a2a"/>
+                                <ellipse cx="75" cy="100" rx="50" ry="15" fill="#1a1a1a"/>
+                                <!-- Bowl -->
+                                <path d="M 35 85 Q 35 60, 45 50 Q 55 45, 70 45 Q 85 45, 95 50 Q 105 60, 105 85" 
+                                      fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                                <!-- Rim -->
+                                <ellipse cx="70" cy="75" rx="35" ry="8" fill="#3a3a3a"/>
+                                <!-- Steam/bubbles -->
+                                <circle cx="60" cy="70" r="3" fill="#88aaff" opacity="0.6"/>
+                                <circle cx="80" cy="68" r="4" fill="#88aaff" opacity="0.6"/>
+                                <circle cx="70" cy="65" r="2" fill="#88aaff" opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <div class="cauldron-slots">
+                            <div class="ingredient-slot" id="slot-1">Ingredient 1</div>
+                            <div class="ingredient-slot" id="slot-2">Ingredient 2</div>
+                        </div>
+                        <button class="brew-btn" id="brew-btn">⚗️ Brew Potion</button>
+                    </div>
+                </div>
+
+                <div class="recipe-book">
+                    <h3>📖 Recipe Book</h3>
+                    <div class="recipes-list" id="recipes-list">
+                        <div class="recipe-card">
+                            <h4>💚 Health Potion</h4>
+                            <p>Chopped Lavender + Ground Ginseng</p>
+                        </div>
+                        <div class="recipe-card">
+                            <h4>🔮 Mana Potion</h4>
+                            <p>Ground Mint + Dehydrated Mushroom</p>
+                        </div>
+                        <div class="recipe-card">
+                            <h4>⚡ Energy Potion</h4>
+                            <p>Chopped Thyme + Dehydrated Sage</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-panel">
+                    <h3>Prepared Ingredients</h3>
+                    <div class="prepared-inventory" id="prepared-inventory-for-craft"></div>
+                    <div class="potions-crafted">
+                        <h4>Potions Crafted</h4>
+                        <div class="potions-list" id="potions-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
