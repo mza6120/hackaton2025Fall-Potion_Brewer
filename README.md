@@ -34,7 +34,8 @@ Grow, harvest, and craft! Start your own potion-making garden where you:
 ## 🛠️ Tech Stack
 
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js (for future features)
+- **Backend**: Node.js, Express
+- **Database**: In-memory (can be upgraded to MongoDB)
 
 ## 📁 Project Structure
 
@@ -45,15 +46,31 @@ PotionCraft/
 │   ├── style.css       # All styling and animations
 │   └── script.js       # Frontend logic and UI
 ├── Backend/
-│   └── server.js       # Server and game logic (future)
+│   ├── server.js       # Express server and API
+│   └── package.json    # Dependencies
 └── README.md
+```
 
 ## 🚀 Getting Started
 
-1. Open `Frontend/index.html` in your web browser
-2. Start planting herbs in the Garden tab
-3. Harvest and prepare them in the Preparation tab
-4. Brew your first potion in the Potion Craft tab!
+### Option 1: Run with Backend (Recommended)
+
+1. Install backend dependencies:
+   ```bash
+   cd Backend
+   npm install
+   ```
+
+2. Start the server:
+   ```bash
+   npm start
+   ```
+
+3. Open your browser and go to: `http://localhost:3000`
+
+### Option 2: Run Frontend Only
+
+Simply open `Frontend/index.html` in your web browser.
 
 ## 🌿 Available Herbs
 
@@ -66,7 +83,16 @@ PotionCraft/
 
 ## 🔮 Potion Recipes
 
-Combine different prepared ingredients to create unique potions. Experiment to discover new recipes!
+- **Health Potion** 💚: Chopped Lavender + Ground Ginseng
+- **Mana Potion** 🔮: Ground Mint + Dehydrated Mushroom
+- **Energy Potion** ⚡: Chopped Thyme + Dehydrated Sage
+
+## 🎯 Future Enhancements
+
+- Database integration for persistent saves
+- Multiplayer features
+- More herbs and potions
+- Achievements and leaderboards
 
 ---
 
