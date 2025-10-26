@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const { getRandomBuyerRequest } = require('./ai-assistant');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,7 +16,8 @@ let gameState = {
     plants: [],
     harvestedIngredients: [],
     preparedIngredients: [],
-    craftedPotions: []
+    craftedPotions: [],
+    score: 0 // Points from selling potions
 };
 
 // API Routes
@@ -43,9 +45,32 @@ app.post('/api/reset', (req, res) => {
         plants: [],
         harvestedIngredients: [],
         preparedIngredients: [],
-        craftedPotions: []
+        craftedPotions: [],
+        score: 0
     };
     res.json({ success: true, gameState });
+});
+
+// Get random buyer request
+app.get('/api/buyer', (req, res) => {
+    const buyerRequest = getRandomBuyerRequest();
+    res.json(buyerRequest);
+});
+
+// Sell potion
+app.post('/api/sell', (req, res) => {
+    const { potionType } = req.body;
+    
+    // Remove one potion of this type from crafted potions
+    const potionIndex = gameState.craftedPotions.findIndex(p => p.toLowerCase().includes(potionType));
+    
+    if (potionIndex !== -1) {
+        gameState.craftedPotions.splice(potionIndex, 1);
+        gameState.score += 1;
+        res.json({ success: true, score: gameState.score, message: 'Potion sold! +1 point' });
+    } else {
+        res.json({ success: false, message: 'You don\'t have that potion to sell!' });
+    }
 });
 
 // Serve frontend - must be last after all other routes

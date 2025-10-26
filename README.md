@@ -2,9 +2,17 @@
 
 A web-based potion crafting game inspired by Potion Craft, where you grow herbs, harvest ingredients, and brew magical potions.
 
-## 🚀 Play Now - One Click!
+## 🚀 Play Now
 
-**[📲 OPEN GAME →](Frontend/index.html)** (Right-click and "Open in Browser" if link doesn't work directly)
+To play the game, you need to either:
+
+**Option A: With Backend Server** (Recommended)
+1. Start the server: `cd Backend && npm start`
+2. Open: [http://localhost:3000](http://localhost:3000)
+
+**Option B: Direct File**
+1. Navigate to the `Frontend` folder
+2. Double-click `index.html` to open in your browser
 
 ## 🎮 Game Overview
 

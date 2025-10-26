@@ -25,6 +25,7 @@ class PotionCraftGame {
         this.setupGarden();
         this.setupPreparation();
         this.setupPotionCraft();
+        this.setupSell();
     }
     
     // ===== TAB NAVIGATION =====
@@ -54,6 +55,11 @@ class PotionCraftGame {
         // If switching to potion craft tab, render prepared ingredients
         if (tabId === 'potion-craft') {
             this.renderPreparedForCraft();
+        }
+        
+        // If switching to sell tab, update inventory
+        if (tabId === 'sell') {
+            this.updateSellInventory();
         }
     }
     
@@ -516,6 +522,106 @@ class PotionCraftGame {
             item.textContent = potion;
             container.appendChild(item);
         });
+        
+        // Also update sell tab inventory
+        this.updateSellInventory();
+    }
+    
+    // ===== SELL TAB =====
+    setupSell() {
+        const newBuyerBtn = document.getElementById('new-buyer-btn');
+        const sellInventory = document.getElementById('potions-to-sell');
+        
+        // Load initial buyer
+        this.loadNewBuyer();
+        
+        // New buyer button
+        newBuyerBtn.addEventListener('click', () => {
+            this.loadNewBuyer();
+        });
+        
+        // Setup sell inventory rendering
+        this.updateSellInventory();
+    }
+    
+    loadNewBuyer() {
+        fetch('/api/buyer')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('buyer-message').textContent = data.message;
+                this.currentBuyerType = data.type;
+            })
+            .catch(err => console.error('Error loading buyer:', err));
+    }
+    
+    updateSellInventory() {
+        const container = document.getElementById('potions-to-sell');
+        container.innerHTML = '';
+        
+        // Count potions
+        const potionCount = {
+            'health': 0,
+            'mana': 0,
+            'energy': 0
+        };
+        
+        this.craftedPotions.forEach(potion => {
+            const lower = potion.toLowerCase();
+            if (lower.includes('health')) potionCount.health++;
+            if (lower.includes('mana')) potionCount.mana++;
+            if (lower.includes('energy')) potionCount.energy++;
+        });
+        
+        // Create sellable potions
+        Object.keys(potionCount).forEach(type => {
+            const count = potionCount[type];
+            if (count > 0) {
+                const item = document.createElement('div');
+                item.className = 'potion-for-sale';
+                item.textContent = `${count}x ${type.charAt(0).toUpperCase() + type.slice(1)} Potion`;
+                item.dataset.potionType = type;
+                
+                item.addEventListener('click', () => this.sellPotion(type));
+                container.appendChild(item);
+            }
+        });
+        
+        if (this.craftedPotions.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #999; font-style: italic;">No potions to sell yet!</p>';
+        }
+    }
+    
+    sellPotion(potionType) {
+        fetch('/api/sell', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ potionType })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Remove sold potion from local inventory
+                const index = this.craftedPotions.findIndex(p => 
+                    p.toLowerCase().includes(potionType)
+                );
+                if (index > -1) {
+                    this.craftedPotions.splice(index, 1);
+                }
+                
+                // Update UI
+                this.updateSellInventory();
+                document.getElementById('score-display').textContent = data.score;
+                
+                // Load new buyer after sale
+                this.loadNewBuyer();
+                
+                // Show success message
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(err => console.error('Error selling potion:', err));
     }
 }
 
