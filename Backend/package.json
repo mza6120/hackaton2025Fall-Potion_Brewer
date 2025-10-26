@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend for Potion Craft Garden",
+  "description": "Backend for Potion Brewer",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

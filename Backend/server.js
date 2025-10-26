@@ -48,11 +48,12 @@ app.post('/api/reset', (req, res) => {
     res.json({ success: true, gameState });
 });
 
-// Serve frontend
-app.get('*', (req, res) => {
+// Serve frontend - must be last after all other routes
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Open your browser and go to: http://localhost:${PORT}`);
 });

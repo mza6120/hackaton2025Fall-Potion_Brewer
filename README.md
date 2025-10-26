@@ -1,4 +1,4 @@
-# 🧪 Potion Craft Garden 🧪
+# 🧪 Potion Brewer 🧪
 
 A web-based potion crafting game inspired by Potion Craft, where you grow herbs, harvest ingredients, and brew magical potions.
 
@@ -40,7 +40,7 @@ Grow, harvest, and craft! Start your own potion-making garden where you:
 ## 📁 Project Structure
 
 ```
-PotionCraft/
+PotionBrewer/
 ├── Frontend/
 │   ├── index.html      # Main HTML structure
 │   ├── style.css       # All styling and animations
@@ -49,6 +49,7 @@ PotionCraft/
 │   ├── server.js       # Express server and API
 │   └── package.json    # Dependencies
 └── README.md
+```
 ```
 
 ## 🚀 Getting Started
