@@ -2,6 +2,10 @@
 
 A web-based potion crafting game inspired by Potion Craft, where you grow herbs, harvest ingredients, and brew magical potions.
 
+## 🚀 Play Now - One Click!
+
+**[📲 OPEN GAME →](Frontend/index.html)** (Right-click and "Open in Browser" if link doesn't work directly)
+
 ## 🎮 Game Overview
 
 Grow, harvest, and craft! Start your own potion-making garden where you:
